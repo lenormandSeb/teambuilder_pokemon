@@ -11,7 +11,8 @@ class DefaultController extends AbstractController
     public function index()
     {
         return $this->render('index.html.twig', [
-            'category' => 'Hello je suis la page index'
+            'category' => 'Hello je suis la page index',
+            'server' => $_SERVER,
         ]);
     }
 }
