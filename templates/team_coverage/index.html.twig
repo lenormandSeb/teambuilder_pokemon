@@ -1,0 +1,249 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team Coverage{% endblock %}
+
+{% block body %}
+    {{ dump(natureTab) }}
+    <div class="row">
+    {% for i in 0..5 %}
+    <div class="col-md-2">
+        <div class="card">
+            <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16f10a2c961%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16f10a2c961%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2294%22%20y%3D%2296.9%22%3EImage%20cap%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
+            <div class="card-body" style="padding:0px !important">
+                <p class="card-text">
+                    {% if pokemons[i] is defined %}
+                    <div style="position:relative;height:auto; margin:5px">
+                        <div style="background-color:#{{ pokemons[i].getTypeOne.color }};width:{% if pokemons[i].getTypeTwo %}50{% else %}100{% endif %}%;float:left;height:100%;position:absolute;border-radius: 13px {% if pokemons[i].getTypeTwo %}0 0 13px{% endif %};"></div>
+                        {% if pokemons[i].getTypeTwo %}
+                            <div style="background-color:#{{ pokemons[i].getTypeTwo.color }};width:50%;height:100%;right:0;position:absolute;border-radius: 0 13px 13px 0;"></div>
+                        {% endif %}
+                        <p class="text-center" style="position:relative;color:white;font-size:x-large">
+                            {{ pokemons[i].name }}
+                        </p>
+                    </div>
+                    <div>
+                        <select class="form-control changeNature" id="{{ i }}">
+                            {% if natureTab[i] is defined %}
+                                <optgroup label="Choix">
+                                    <option>
+                                        {{ natureTab[i] }}
+                                    </option>
+                                </optgroup>
+                            {% endif %}
+                            {% for nature in natures|sort((a,b) => a.statAug <=> b.statAug) %}
+                                {% if not loop.first and nature.statAug != prem %}
+                                    </optgroup>
+                                    {% set prem = nature.statAug %}
+                                    <optgroup label="{{ prem|capitalize }}">
+                                {% endif %}
+                                {% if loop.first %}
+                                    {% set prem = nature.statAug %}
+                                    <optgroup label="{{ prem|capitalize }}">
+                                {% endif %}
+                                {% if nature.statAug == prem %}
+                                    <option data-url="{{ path('teamcoverage-nature', {'id': i, 'nature': nature.name }) }}">{{ nature.name ~ ' +' ~ nature.statAug ~' -' ~ nature.statDown }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div style="margin:10px">
+                        <hr>
+                        <p>HP - ATK - DEF - SPE ATK - SPE DEF - SPEED</p>
+                        <p id="stat-{{ i }}">
+                            <span class="hp">{{ pokemons[i].hp }}</span>
+                            <span class="attack">{{ pokemons[i].attack }}</span>
+                            <span class="defense">{{ pokemons[i].defense }}</span>
+                            <span class="speattack">{{ pokemons[i].speattack }}</span>
+                            <span class="spedefense">{{ pokemons[i].spedefense }}</span>
+                            <span class="speed">{{ pokemons[i].speed }}</span>
+                        </p>
+                        <hr>
+                        <p class="stat-{{ i }}-50">
+                            <span class="hp">{{ pokemons[i].hp }}</span>
+                            <span class="attack">{{ pokemons[i].attack }}</span>
+                            <span class="defense">{{ pokemons[i].defense }}</span>
+                            <span class="speattack">{{ pokemons[i].speattack }}</span>
+                            <span class="spedefense">{{ pokemons[i].spedefense }}</span>
+                            <span class="speed">{{ pokemons[i].speed }}</span>
+                        </p>
+                        <hr>
+                        <p class="stat-{{ i }}-100">
+                            <span class="hp">{{ pokemons[i].hp }}</span>
+                            <span class="attack">{{ pokemons[i].attack }}</span>
+                            <span class="defense">{{ pokemons[i].defense }}</span>
+                            <span class="speattack">{{ pokemons[i].speattack }}</span>
+                            <span class="spedefense">{{ pokemons[i].spedefense }}</span>
+                            <span class="speed">{{ pokemons[i].speed }}</span>
+                        </p>
+                    </div>
+                        {# <hr>
+                        <button type="button" class="btn btn-success btn-sm modal-trigger" data-toggle="modal" href="#exampleModal3" data-target="{{ path('teamcoverage-ajout', {'place': i }) }}">Replace</button>
+                        <button type="button" class="btn btn-danger btn-sm modal-trigger" data-target="{{ path('teamcoverage-remove', {'place': i }) }}">Remove</button> #}
+                    {% else %}
+                        <button type="button" class="btn btn-success btn-sm modal-trigger" data-toggle="modal" href="#exampleModal3" data-target="{{ path('teamcoverage-ajout', {'place': i }) }}">Add</button>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    <hr>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Pokemon - Type</th>
+                {% for type in types %}
+                    {% if type.name != 'NULL' %}
+                    <th style="background-color:#{{ type.color }};color:white; text-align:center">{{ type.name }}</th>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                {% for i in 0..5 %}
+                    <td>
+                    {% if pokemons[i] is defined %}
+                            {{ pokemons[i].name }}
+                    {% else %}
+                            Pokemon n° {{ i + 1 }}
+                    {% endif %}
+                    </td>
+                    {% if pokemons[i] is defined %}
+                    {% for faiblesse in pokemons[i].faiblesse|split(';') %}
+                        {% if faiblesse == '2' %}
+                            {% set color = '#FFAAAA'%}
+                        {% elseif faiblesse == '1' %}
+                            {% set color = '#ffffaa'%}
+                        {% elseif faiblesse == '0.5' %}
+                            {% set color = '#AAFFAA'%}
+                        {% elseif faiblesse == '0.25' %}
+                            {% set color = '#3AF24B'%}
+                        {% elseif faiblesse == '0' %}
+                            {% set color = '#AAAAAA'%}
+                        {% else %}
+                            {% set color = '#FF5E4D'%}
+                        {% endif %}
+                        <td style="background-color:{{ color }}" class="text-center">{% if faiblesse != 1 %}x{{ faiblesse }}{% endif %}</td>
+                    {% endfor %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<script>
+$(document).ready(function() {
+    augmentStatByLvl();
+    $('.modal-trigger').click(function () {
+        $('.modal').modal();
+        url = $(this).attr('data-target');
+        $.ajax({
+            type: 'get',
+            url: url,
+            success: function(data){
+                $('.modal-body').html(data);
+            }
+        })
+    });
+
+    $('.changeNature').on('change', function(){
+        var id = $(this).attr('id');
+        checkStat(id)
+        augmentStat($(this).val().split(' ')[1].replace('+',''), id)
+        downStat($(this).val().split(' ')[2].replace('-',''), id)
+        var url = $(this).find(':selected').data('url')
+        $.ajax({
+            type: 'get',
+            url: url,
+            success: function(data){
+                document.location.href = "{{ path('app_team_coverage') }}"
+            }
+        })
+    });
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        document.location.href = "{{ path('app_team_coverage') }}"
+    });
+});
+
+function checkStat(position)
+{
+    $('#stat-' + position).children().each((index, ele) => {
+        if ($(ele).attr('old-stat')) {
+            $(ele).text($(ele).attr('old-stat')).css('color', '')
+        }
+    })
+    $('.stat-' + position + '-50').children().each((index, ele) => {
+        if ($(ele).attr('old-stat')) {
+            $(ele).text($(ele).attr('old-stat')).css('color', '')
+        }
+    })
+    $('.stat-' + position + '-100').children().each((index, ele) => {
+        if ($(ele).attr('old-stat')) {
+            $(ele).text($(ele).attr('old-stat')).css('color', '')
+        }
+    })
+}
+
+function augmentStat(statToAug, position)
+{
+    var base = $('#stat-' + position + ' .' + statToAug).text();
+    var newStat = (parseInt(base) * 1.10);
+    $('#stat-' + position + ' .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'blue')
+
+    var base = $('.stat-' + position + '-50 .' + statToAug).text();
+    var newStat = (parseInt(base) * 1.10);
+    $('.stat-' + position + '-50 .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'blue')
+
+    var base = $('.stat-' + position + '-100 .' + statToAug).text();
+    var newStat = (parseInt(base) * 1.10);
+    $('.stat-' + position + '-100 .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'blue')
+}
+
+function downStat(statToAug, position)
+{
+    var base = $('#stat-' + position + ' .' + statToAug).text();
+    var newStat = (parseInt(base) * 0.90);
+    $('#stat-' + position + ' .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'red')
+
+    var base = $('.stat-' + position + '-50 .' + statToAug).text();
+    var newStat = (parseInt(base) * 0.90);
+    $('.stat-' + position + '-50 .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'red')
+
+    var base = $('.stat-' + position + '-100 .' + statToAug).text();
+    var newStat = (parseInt(base) * 0.90);
+    $('.stat-' + position + '-100 .' + statToAug).attr('old-stat', base).text(parseInt(newStat)).css('color', 'red')
+}
+
+function augmentStatByLvl()
+{
+    for(var i = 0; i < 6; i++)
+    {
+        $('.stat-'+i+'-50').children().each((index, ele) => {
+            if ($(ele).attr('class') == 'hp')
+            {
+                var stat = (((2 * parseInt($(ele).text()) + 31 + (252/4)) * 50)/100) + 50 + 10
+                $(ele).text(parseInt(stat))
+            }else {
+                var stat = ((((2 * parseInt($(ele).text()) + 31 + (252/4)) * 50)/100) + 5) * 1
+                $(ele).text(parseInt(stat))
+            }
+        })
+        $('.stat-'+i+'-100').children().each((index, ele) => {
+            if ($(ele).attr('class') == 'hp')
+            {
+                var stat = (((2 * parseInt($(ele).text()) + 31 + (252/4)) * 100)/100) + 100 + 10
+                $(ele).text(parseInt(stat))
+            }else {
+                var stat = ((((2 * parseInt($(ele).text()) + 31 + (252/4)) * 100)/100) + 5) * 1
+                $(ele).text(parseInt(stat))
+            }
+        })
+    }
+}
+
+</script>
+{% endblock %}

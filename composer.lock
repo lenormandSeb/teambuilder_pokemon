@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0aa134c748f7bb4398f0b93f0f19bb9",
+    "content-hash": "421652c61ac62550ff7fc7d8a04ff665",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -403,20 +403,21 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.0.2",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "f96fac225563f5b3b4eeb2f80eb982b7f56484d8"
+                "reference": "fd15f1854e477fd4628bfe9c034130513d23f1f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/f96fac225563f5b3b4eeb2f80eb982b7f56484d8",
-                "reference": "f96fac225563f5b3b4eeb2f80eb982b7f56484d8",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/fd15f1854e477fd4628bfe9c034130513d23f1f5",
+                "reference": "fd15f1854e477fd4628bfe9c034130513d23f1f5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^2.9.0",
+                "doctrine/persistence": "^1.3.3",
                 "jdorn/sql-formatter": "^1.2.16",
                 "php": "^7.1",
                 "symfony/cache": "^4.3.3|^5.0",
@@ -424,7 +425,8 @@
                 "symfony/console": "^3.4.30|^4.3.3|^5.0",
                 "symfony/dependency-injection": "^4.3.3|^5.0",
                 "symfony/doctrine-bridge": "^4.3.7|^5.0",
-                "symfony/framework-bundle": "^3.4.30|^4.3.3|^5.0"
+                "symfony/framework-bundle": "^3.4.30|^4.3.3|^5.0",
+                "symfony/service-contracts": "^1.1.1|^2.0"
             },
             "conflict": {
                 "doctrine/orm": "<2.6",
@@ -487,7 +489,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-11-28T08:38:10+00:00"
+            "time": "2019-12-18T16:07:48+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -5123,16 +5125,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "e86df1b0f1672362ecf96023faf2c42241c41330"
+                "reference": "3ae6fad7a3dc2d99a023f9360184628fc44acbb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e86df1b0f1672362ecf96023faf2c42241c41330",
-                "reference": "e86df1b0f1672362ecf96023faf2c42241c41330",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/3ae6fad7a3dc2d99a023f9360184628fc44acbb3",
+                "reference": "3ae6fad7a3dc2d99a023f9360184628fc44acbb3",
                 "shasum": ""
             },
             "require": {
@@ -5196,7 +5198,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-18T17:27:11+00:00"
+            "time": "2019-12-12T13:03:32+00:00"
         },
         {
             "name": "symfony/translation-contracts",
