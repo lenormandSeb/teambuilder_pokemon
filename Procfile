@@ -1,1 +1,1 @@
-web: heroku-php-symfony web/
+web: symfony server:start
