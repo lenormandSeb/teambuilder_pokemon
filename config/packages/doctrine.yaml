@@ -1,6 +1,11 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        dbname:               teambuilder_pokemon
+        host:                 176.140.44.130
+        port:                 3306
+        user:                 admin
+        password:             Tsumenohy12
+        #url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
