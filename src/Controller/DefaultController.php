@@ -12,6 +12,7 @@ class DefaultController extends AbstractController
     {
         return $this->render('index.html.twig', [
             'category' => 'Hello je suis la page index',
+            'env' => '%env(resolve:DATABASE_URL)%'
         ]);
     }
 }
