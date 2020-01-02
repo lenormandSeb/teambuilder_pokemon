@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         dbname:               teambuilder_pokemon
-        host:                 176.140.44.130
+        host:                 bbox.lan
         port:                 3306
         user:                 admin
         password:             Tsumenohy12
