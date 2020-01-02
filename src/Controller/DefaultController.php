@@ -12,7 +12,7 @@ class DefaultController extends AbstractController
     {
         return $this->render('index.html.twig', [
             'category' => 'Hello je suis la page index',
-            'server' => $_SERVER,
+            'server' => $_ENV,
         ]);
     }
 }
