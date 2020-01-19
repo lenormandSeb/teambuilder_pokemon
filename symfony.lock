@@ -233,7 +233,7 @@
         ]
     },
     "symfony/form": {
-        "version": "v5.0.1"
+        "version": "v5.0.2"
     },
     "symfony/framework-bundle": {
         "version": "4.4",
@@ -327,7 +327,7 @@
         ]
     },
     "symfony/options-resolver": {
-        "version": "v5.0.1"
+        "version": "v5.0.2"
     },
     "symfony/orm-pack": {
         "version": "v1.0.7"
