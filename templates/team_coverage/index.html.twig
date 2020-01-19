@@ -6,6 +6,7 @@
     <div class="row">
     {% for i in 0..5 %}
     <div class="col-md-2">
+    {# TODO refacto card  #}
         <div class="card">
             <img class="card-img-top" src="{% if pokemons[i] is defined %} https://www.pokepedia.fr/Fichier:{{ pokemons[i].name }}-EB.png {% else %} ... {% endif %}" alt="Card image cap">
             <div class="card-body" style="padding:0px !important">
@@ -20,53 +21,10 @@
                             {{ pokemons[i].name }}
                         </p>
                     </div>
-                    <div>
-                        <select class="form-control changeNature" id="{{ i }}">
-                            {% if natureTab[i] is defined %}
-                                <optgroup label="Choix">
-                                    <option>
-                                        {{ natureTab[i] }}
-                                    </option>
-                                </optgroup>
-                            {% endif %}
-                            {% for nature in natures|sort((a,b) => a.statAug <=> b.statAug) %}
-                                {% if not loop.first and nature.statAug != prem %}
-                                    </optgroup>
-                                    {% set prem = nature.statAug %}
-                                    <optgroup label="{{ prem|capitalize }}">
-                                {% endif %}
-                                {% if loop.first %}
-                                    {% set prem = nature.statAug %}
-                                    <optgroup label="{{ prem|capitalize }}">
-                                {% endif %}
-                                {% if nature.statAug == prem %}
-                                    <option data-url="{{ path('teamcoverage-nature', {'id': i, 'nature': nature.name }) }}">{{ nature.name ~ ' +' ~ nature.statAug ~' -' ~ nature.statDown }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
                     <div style="margin:10px">
                         <hr>
                         <p>HP - ATK - DEF - SPE ATK - SPE DEF - SPEED</p>
                         <p id="stat-{{ i }}">
-                            <span class="hp">{{ pokemons[i].hp }}</span>
-                            <span class="attack">{{ pokemons[i].attack }}</span>
-                            <span class="defense">{{ pokemons[i].defense }}</span>
-                            <span class="speattack">{{ pokemons[i].speattack }}</span>
-                            <span class="spedefense">{{ pokemons[i].spedefense }}</span>
-                            <span class="speed">{{ pokemons[i].speed }}</span>
-                        </p>
-                        <hr>
-                        <p class="stat-{{ i }}-50">
-                            <span class="hp">{{ pokemons[i].hp }}</span>
-                            <span class="attack">{{ pokemons[i].attack }}</span>
-                            <span class="defense">{{ pokemons[i].defense }}</span>
-                            <span class="speattack">{{ pokemons[i].speattack }}</span>
-                            <span class="spedefense">{{ pokemons[i].spedefense }}</span>
-                            <span class="speed">{{ pokemons[i].speed }}</span>
-                        </p>
-                        <hr>
-                        <p class="stat-{{ i }}-100">
                             <span class="hp">{{ pokemons[i].hp }}</span>
                             <span class="attack">{{ pokemons[i].attack }}</span>
                             <span class="defense">{{ pokemons[i].defense }}</span>
