@@ -33,7 +33,6 @@ class PokemonRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-   
 
     /*
     public function findOneBySomeField($value): ?Pokemon

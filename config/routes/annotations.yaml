@@ -1,32 +1,3 @@
 controllers:
     resource: ../../src/Controller/
     type: annotation
-
-app_team_coverage:
-    path: /teamcoverage
-    controller: App\Controller\TeamCoverageController::index
-
-app_pokedex:
-    path: /pokedex
-    controller: App\Controller\PokedexController::index
-
-app_attack:
-    path: /attaque
-    controller: App\Controller\AttackController::index
-
-app_pokedex_gen:
-    path: /pokedex/{gen}
-    controller: App\Controller\PokedexController::generation
-
-app_admin_talent:
-    path: /talent
-    controller: App\Controller\TalentController::index
-
-app_admin_type:
-    path: /type
-    controller: App\Controller\TypeController::index
-
-app_admin_pokemon:
-    path: /pokemon
-    controller: App\Controller\PokemonController::index
-

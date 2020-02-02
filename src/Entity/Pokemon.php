@@ -28,6 +28,7 @@ class Pokemon
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="pokemon")
+     * @ORM\JoinTable(name="type_one_id")
      */
     private $type_one;
 
@@ -48,6 +49,7 @@ class Pokemon
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="pokemon")
+     * @ORM\JoinTable(name="type_two_id")
      */
     private $type_two;
 
@@ -68,6 +70,9 @@ class Pokemon
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Talent", inversedBy="pokemon")
+     * @ORM\JoinTable(name="talent_one_id", joinColumns={@ORM\JoinColumn(name="talent_one_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="talent_one_id")}
+     *      )
      */
     private $talent_one;
 
@@ -88,6 +93,7 @@ class Pokemon
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Talent", inversedBy="pokemon")
+     * @ORM\JoinTable(name="talent_two_id")
      */
     private $talent_two;
 
@@ -108,6 +114,7 @@ class Pokemon
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Talent", inversedBy="pokemon")
+     * @ORM\JoinTable(name="talent_hide_id")
      */
     private $talent_hide;
 
