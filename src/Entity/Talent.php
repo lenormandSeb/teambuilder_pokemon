@@ -29,7 +29,7 @@ class Talent
     private $effetCombat;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Pokemon", mappedBy="type_one")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Pokemon", mappedBy="talent_one")
      */
     private $pokemon;
 
