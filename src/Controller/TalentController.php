@@ -29,9 +29,6 @@ class TalentController extends AbstractController
 
         $alltalent = $ta->findAll();
 
-        echo 'hello';
-        die();
-
         $form = $this->createFormBuilder()
                     ->add('Nom_du_talent', TextType::class, [
                         'required' => true

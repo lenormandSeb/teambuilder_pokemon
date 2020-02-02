@@ -29,7 +29,7 @@ class Type
     private $color;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pokemon", mappedBy="type_one")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Pokemon", mappedBy="type_one")
      */
     private $pokemon;
 
