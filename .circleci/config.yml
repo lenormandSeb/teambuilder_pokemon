@@ -2,15 +2,8 @@ version: 2.1
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    docker:
+      - image: circleci/<language>:<version TAG>
     steps:
       - checkout
       - run: composer install --prefer-dist --no-progress --no-suggest
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
