@@ -14,7 +14,3 @@ jobs:
 
     # - name: Run test suite
     #   run: composer run-script test
-workflows:
-  build_and_test:
-    jobs:
-      - build
