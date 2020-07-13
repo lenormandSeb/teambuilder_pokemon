@@ -8,9 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: 
-        name: 'Composer install'
-        command: composer install --prefer-dist --no-progress --no-suggest
+      name: 'Composer install'
+      command: composer install --prefer-dist --no-progress --no-suggest
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
