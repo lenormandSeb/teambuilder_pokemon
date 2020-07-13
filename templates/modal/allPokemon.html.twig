@@ -1,0 +1,65 @@
+<hr>
+    <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search for names..">
+<hr>
+<div>
+    <table class="table">
+        <tbody id="myULP">
+            <tr>
+            {% for pokemon in pokemons %}
+                <td>
+                    {{ pokemon.numDex }}
+                </td>
+                <td>
+                    {{ pokemon.name }}
+                </td>
+                <td>
+                    {% if pokemon.getTypeOne %}
+                        <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                        {% if pokemon.getTypeTwo %}
+                            - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    | {{ pokemon.hp }} | {{ pokemon.attack }} | {{ pokemon.defense }} | {{ pokemon.speattack }} | {{ pokemon.spedefense }} | {{ pokemon.speed }} |
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm submitter" data-target="{{ path('teamcoverage-add', { "place": place, "pokemonId": pokemon.numDex } ) }}">Add {{ pokemon.name }}</button>
+                </td>
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+    $('.submitter').click(function(){
+        url = $(this).attr('data-target');
+        $.ajax({
+            type: 'get',
+            url: url,
+            success: function(data){
+                document.location.href = "{{ path('app_team_coverage') }}"
+            }
+        })
+    })
+})
+function myFunction() {
+  // Declare variables
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myULP");
+  li = ul.getElementsByTagName('tr');
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("td")[1];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script> 

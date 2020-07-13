@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pokedex{% endblock %}
+
+{% block body %}
+    {# //TODO refacto pokedex #}
+    {% if gen == true %}
+        <h2>{{ gen }}{% if gen == 1 %}ere{% else %}eme{% endif %} génération</h2>
+    {% endif %}
+    {% for i in 0..7 %}
+        <a href="{{ path('app_pokedex_gen', {gen: i + 1 }) }}"><span class="badge badge-secondary">Gen {{ i + 1 }}</span></a>
+    {% endfor %}
+        <a href="{{ path('app_pokedex') }}"><span class="badge badge-secondary">Toutes</span></a>
+    <hr>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>TALENT</th>
+                    <th>HP</th>
+                    <th>ATK</th>
+                    <th>DEF</th>
+                    <th>SPE ATK</th>
+                    <th>SPE DEF</th>
+                    <th>SPEED</th>
+                    <th>TOTAL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr scope="row">
+                {% for pokemon in pokemons %}
+                    <td scope="col-md-2">{{ pokemon.numDex }} - {{ pokemon.name }}</td>
+                    <td scope="col-md-2">
+                    {% if pokemon.getTypeOne != null %}
+                    <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                    {% if pokemon.getTypeTwo != null %}
+                         - 
+                    <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                    {% endif %}
+                    {% endif %}</td>
+                    <td scope="col-md-2">empty</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('hp') }}">{{ pokemon.hp }}</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('attack') }}">{{ pokemon.attack }}</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('defense') }}">{{ pokemon.defense }}</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('spe_attack') }}">{{ pokemon.speattack }}</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('spe_defense') }}">{{ pokemon.spedefense }}</td>
+                    <td scope="col-md-1" style="color: {{ pokemon.getBackgroundColor('speed') }}">{{ pokemon.speed }}</td>
+                    <td>{{ pokemon.getTotalBaseStats }}</td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm modal-trigger" data-toggle="modal" href="#exampleModal3" data-target="{{ path('teamcoverage-custom', {'pokemonId': pokemon.numDex }) }}">Add</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $('.modal-trigger').click(function () {
+            $('.modal').modal();
+            url = $(this).attr('data-target');
+            $.ajax({
+                type: 'get',
+                url: url,
+                success: function(data){
+                    $('.modal-body').html(data);
+                }
+            })
+        });
+        $('.submitter').click(function(){
+            url = $(this).attr('data-target');
+            $.ajax({
+                type: 'get',
+                url: url,
+                success: function(data){
+                    //document.location.href = "{{ path('app_team_coverage') }}"
+                }
+            })
+        })
+    })
+    </script>
+{% endblock %}

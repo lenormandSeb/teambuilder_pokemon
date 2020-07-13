@@ -1,0 +1,117 @@
+{% import "macro/EV-IV.twig" as forms %}
+<div class="row">
+    <div class="col-md-12">
+    {{ pokemon.name }} - {{ pokemon.numDex }}
+    </div>
+    <div class="col-md-7">
+        <img />
+        <p>
+            {% if pokemon.getTypeOne %}
+                <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                {% if pokemon.getTypeTwo %}
+                    - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                {% endif %}
+            {% endif %}
+        </p>
+        <div class="row">
+            <select name="talent" class="form-control col-md-6">
+            {% if pokemon.getTalentOne %}
+            <option> {{ pokemon.getTalentOne.name }} </option>
+            {% endif %}
+            {% if pokemon.getTalentTwo %}
+            <option> {{ pokemon.getTalentTwo.name }} </option>
+            {% endif %}
+            {% if pokemon.getTalentHide %}
+            <option> {{ pokemon.getTalentHide.name }} </option>
+            {% endif %}
+            </select>
+            <select name="nature" class="form-control col-md-6">
+                {% for nature in natures %}
+                <option>{{ nature.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>BS</th>
+                        <th>EV</th>
+                        <th>IV</th>
+                        <th>FINAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HP</td>
+                        <td>{{ pokemon.hp }}</td>
+                        <td>{{ forms.inputEVIV('hpEV', 'form-control stat hpEV', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('hpIV', 'form-control stat hpIV', 'number', 0, 31, 31) }}</td>
+                        <td id="hpfinal"></td>
+                    </tr>
+                    <tr>
+                        <td>ATK</td>
+                        <td>{{ pokemon.attack }}</td>
+                        <td>{{ forms.inputEVIV('atkEV', 'form-control stat atk', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('atkIV', 'form-control stat atk', 'number', 0, 31, 31) }}</td>
+                        <td id="atkfinal"></td>
+                    </tr>
+                    <tr>
+                        <td>DEF</td>
+                        <td>{{ pokemon.defense }}</td>
+                        <td>{{ forms.inputEVIV('defEV', 'form-control stat def', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('defIV', 'form-control stat def', 'number', 0, 31, 31) }}</td>
+                        <td id="deffinal"></td>
+                    </tr>
+                    <tr>
+                        <td>ATK SPE</td>
+                        <td>{{ pokemon.speattack }}</td>
+                        <td>{{ forms.inputEVIV('atkspeEV', 'form-control stat atkspe', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('atkspeIV', 'form-control stat atkspe', 'number', 0, 31, 31) }}</td>
+                        <td id="atkspefinal"></td>
+                    </tr>
+                    <tr>
+                        <td>DEF SPE</td>
+                        <td>{{ pokemon.spedefense }}</td>
+                        <td>{{ forms.inputEVIV('defspeEV', 'form-control stat defspe', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('defspeIV', 'form-control stat defspe', 'number', 0, 31, 31) }}</td>
+                        <td id="defspefinal"></td>
+                    </tr>
+                    <tr>
+                        <td>VITESSE</td>
+                        <td>{{ pokemon.speed }}</td>
+                        <td>{{ forms.inputEVIV('vitEV', 'form-control stat vit', 'number', 0, 255, 0) }}</td>
+                        <td>{{ forms.inputEVIV('vitIV', 'form-control stat vit', 'number', 0, 31, 31) }}</td>
+                        <td id="vitfinal"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <p>Attaque 1</p>
+        <p>Attaque 2</p>
+        <p>Attaque 3</p>
+        <p>Attaque 4</p>
+    </div>
+</div>
+{% block script %}
+<script src="{{ asset('js/statChanger.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        var test = new Test('{{ pokemon.hp }}',
+            '{{ pokemon.attack }}',
+            '{{ pokemon.defense }}',
+            '{{ pokemon.speattack }}',
+            '{{ pokemon.spedefense }}',
+            '{{ pokemon.speed }}');
+
+        test.calculateur();
+
+        $('.stat').on('change', function(event) {
+            test.update($(event.currentTarget))
+        })
+    })
+</script>
+{% endblock %}
