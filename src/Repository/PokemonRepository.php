@@ -19,30 +19,35 @@ class PokemonRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokemon::class);
     }
 
+    public function findAllByNumDex()
+    {
+        return $this->createQueryBuilder('p')
+                ->orderBy('p.num_dex', 'ASC')
+                ->getQuery()
+                ->getResult()
+        ;
+    }
     // /**
     //  * @return Pokemon[] Returns an array of Pokemon objects
     //  */
-    
     public function findByGeneration($value)
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.generation = :val')
             ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.num_dex', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Pokemon
+    public function findByNumDex($value): ?Pokemon
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->andWhere('p.num_dex = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

@@ -30,7 +30,7 @@ class TeamCoverageController extends AbstractController
         {
             foreach($team as $to)
             {
-                array_push($pokemons, $pokemonRepo->find($to));
+                array_push($pokemons, $pokemonRepo->findByNumDex($to));
             }
         }
 
@@ -72,6 +72,21 @@ class TeamCoverageController extends AbstractController
             'place' => $place,
             'pokemons' => $pokemons
         ]);
+    }
+
+    /**
+     * @Route("/team/coverage/custom/{pokemonId}", name="teamcoverage-custom")
+     */
+    public function custom($pokemonId)
+    {
+        $repository = $this->getDoctrine()->getRepository(Pokemon::class);
+        $repo = $this->getDoctrine()->getRepository(Nature::class);
+        $pokemons = $repository->findByNumDex($pokemonId);
+        $natures = $repo->findAll();
+        return $this->render('modal/pokemon-custom.html.twig', [
+             'pokemon' => $pokemons,
+             'natures' => $natures
+            ]);
     }
 
     /**

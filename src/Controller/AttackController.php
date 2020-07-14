@@ -51,7 +51,7 @@ class AttackController extends AbstractController
         {
             foreach($team as $to)
             {
-                array_push($pokemons, $pokemonRepo->find($to));
+                array_push($pokemons, $pokemonRepo->findByNumDex($to));
             }
         }
 
