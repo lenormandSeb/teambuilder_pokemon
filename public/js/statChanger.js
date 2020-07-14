@@ -21,7 +21,7 @@ class Test {
             $('#hpfinal').html(newstat);
         } else {
             if ($(text).attr('name') == 'atkEV' || $(text).attr('name') == 'atkIV') {
-                console.log('atk')
+                var newstat = this.StatCalculator(this.atk, 100, )
             }
             else if ($(text).attr('name') === 'defEV' || $(text).attr('name') == 'defIV') {
                 console.log('def')
