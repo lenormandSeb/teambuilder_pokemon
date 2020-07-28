@@ -56,7 +56,7 @@ class StatChanger {
             e.appendChild(label)
         }
 
-        document.getElementsByClassName(this.statsClass[2])[0].addEventListener('change', this.test)
+        document.getElementsByClassName(this.statsClass[2])[0].addEventListener('change', this.changeNaturePokemon)
     }
 
     createNode(property, value) {
@@ -113,18 +113,21 @@ class StatChanger {
             var allTR = document.getElementsByClassName('statChangerStats')[0].children
             for (var x in allTR) {
                 if (allTR[x].childNodes != undefined) {
-                    var bs = allTR[x].childNodes[1].innerHTML 
-                    var ev = allTR[x].childNodes[2].children[0].value
-                    var iv = allTR[x].childNodes[3].children[0].value
+                    var bs, ev, iv, nat ;
+                    bs = allTR[x].childNodes[1].innerHTML 
+                    ev = allTR[x].childNodes[2].children[0].value
+                    iv = allTR[x].childNodes[3].children[0].value
                     if (allTR[x].childNodes[0].innerHTML === 'hp') {
                         resultat = StatChanger.prototype.PVCalculator(bs, lvl, ev, iv)
                     } else {
-                        var nat = "1";
                         if (aug == allTR[x].childNodes[0].innerHTML) {
                             nat = "1.1";
                         }
-                        if (down == allTR[x].childNodes[0].innerHTML) {
+                        else if (down == allTR[x].childNodes[0].innerHTML) {
                             nat = "0.9"
+                        }
+                        else {
+                            nat = "1"
                         }
 
                         resultat = StatChanger.prototype.StatCalculator(bs, lvl, ev, iv, nat)
@@ -173,7 +176,16 @@ class StatChanger {
         return Math.floor(calc)
     };
 
-    test(e) {
-        StatChanger.prototype.update('updateByNature', 50, 'attack', 'defense')
+    changeNaturePokemon(e) {
+        var index, augmentation, down
+        index = e.currentTarget.options.selectedIndex;
+        augmentation = e.currentTarget.options[index].dataset.aug
+        down = e.currentTarget.options[index].dataset.down
+
+        if (typeof StatChanger.prototype.getLvl() === 'undefined') {
+            StatChanger.prototype.setLVL(50)
+        }
+
+        StatChanger.prototype.update('updateByNature', StatChanger.prototype.getLvl(), augmentation, down)
     }
 }
