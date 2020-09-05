@@ -1,0 +1,88 @@
+version : '3.7'
+
+services:
+    team_mysql:
+      container_name: team_mysql
+      image: mysql
+      environment:
+          MYSQL_DATABASE: teambuilderpokemon
+          MYSQL_USER: "root"
+          MYSQL_PASSWORD: "root"
+          MYSQL_ROOT_PASSWORD: "root"
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      volumes:
+          - team_builder_pokemon:/var/lib/mysql
+      networks:
+        noonchak-back:
+          aliases:
+            - teambuilderpokemon-mysql.back.local.test
+
+
+    php:
+      container_name: team_php
+      build:
+        context: .
+        dockerfile: docker/php/Dockerfile
+      volumes:
+        - './:/srv/www/html/teambuilder'
+      restart: on-failure
+      environment:
+          MYSQL_DATABASE: 'teambuilderpokemon'
+          MYSQL_USER: 'root'
+          MYSQL_PASSWORD: 'root'
+      user: 1000:1000
+      depends_on:
+        - team_mysql
+      labels:
+        traefik.enable: false
+      networks:
+        noonchak-back:
+          aliases:
+            - teambuilderpokemon-php.back.local.bzh
+
+
+    nginx:
+      container_name: team_nginx
+      image: nginx:1.19.0-alpine
+      restart: on-failure
+      volumes:
+        - './:/srv/www/html/teambuilder'
+        - './docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro'
+      depends_on:
+        - php
+      labels:
+        traefik.port: 80
+        traefik.docker.network: "noonchak-front"
+        traefik.frontend.entryPoints: http
+        traefik.frontend.rule: "Host: teambuilderpokemon.back.local.bzh"
+      networks:
+        noonchak-front:
+        noonchak-back:
+          aliases:
+            - teambuilderpokemon-nginx.back.local.bzh
+
+    traefik:
+      container_name: team_traefik
+      command: --api --docker --entryPoints='Name:http Address::80' --entryPoints='Name:https Address::443'
+      image: traefik:v1.6.6-alpine
+      ports:
+        - "8080:8080"
+        - "80:80"
+        - "443:443"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      labels:
+        traefik.docker.network: "noonchak-front"
+      networks:
+        noonchak-front:
+          aliases:
+            - teambuilderpokemon-traefik.back.local.bzh
+
+volumes:
+    team_builder_pokemon:
+
+networks:
+  noonchak-front:
+    external: true
+  noonchak-back:
+    external: true
