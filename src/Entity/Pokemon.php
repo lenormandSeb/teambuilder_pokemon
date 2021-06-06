@@ -282,130 +282,135 @@ class Pokemon
         return $this;
     }
 
-    public function getBackgroundColor(string $value): ?string
+    public function __toArray()
     {
-        if (property_exists($this, $value))
-        {
-            $val = (0.3921 * intval($this->$value));
-            switch ($val) {
-                case ($val < 33):
-                    return 'red';
-                case ($val < 66):
-                    return 'green';
-                default:
-                    return 'blue';
-            }
-        }
-        return 0;
+        return ['name' => $this->name, 'num_dex' => $this->num_dex, 'type' => ["type1" => $this->getTypeOne(), "type2" => $this->getTypeTwo()]];
     }
 
-    public function getTotalBaseStats(): ?int
-    {
-        return ($this->hp + $this->attack + $this->defense + $this->spe_attack + $this->spe_defense + $this->speed);
-    }
+    // public function getBackgroundColor(string $value): ?string
+    // {
+    //     if (property_exists($this, $value))
+    //     {
+    //         $val = (0.3921 * intval($this->$value));
+    //         switch ($val) {
+    //             case ($val < 33):
+    //                 return 'red';
+    //             case ($val < 66):
+    //                 return 'green';
+    //             default:
+    //                 return 'blue';
+    //         }
+    //     }
+    //     return 0;
+    // }
 
-    public function getFaiblesse()
-    {
-        if ($this->type_one)
-        {
-            $val = $this->getFaiblesseType($this->type_one->getId());
-            if($this->type_two)
-            {
-                $v = [];
-                $type2 = $this->getFaiblesseType($this->type_two->getId());
-                $t2 = explode(';', $type2);
-                $t1 = explode(';', $val);
-                for ($i = 0; $i < 18; $i++){
-                    $calc = (floatval($t1[$i]) * floatval($t2[$i]));
-                    array_push($v, $calc);
-                }
-                //dump(implode(',',$v));
-                return implode(';',$v);
-            }
-        }
-        return $val;
-    }
+    // public function getTotalBaseStats(): ?int
+    // {
+    //     return ($this->hp + $this->attack + $this->defense + $this->spe_attack + $this->spe_defense + $this->speed);
+    // }
 
-    public function getFaiblesseType($search)
-    {
-        switch ($search)
-        {
-            case 16:
-                // Tenebres
-                $val = '1;2;1;1;1;2;1;1;2;1;1;1;0;1;1;0.5;0.5;1';
-            break;
-            case 3:
-                // Feu
-                $val = '0.5;1;1;2;1;0.5;0.5;0.5;0.5;1;0.5;1;1;2;2;1;1;1';
-            break;
-            case 4:
-                // EAU
-                $val = '0.5;1;1;0.5;2;1;0.5;0.5;1;1;2;1;1;1;1;1;1;1';
-            break;
-            case 8:
-                // Poison
-                $val = '1;0.5;1;1;1;0.5;1;1;0.5;1;0.5;0.5;2;1;2;1;1;1';
-            break;
-            case 18:
-                // Fée
-                $val = '2;0.5;0;1;1;1;1;1;0.5;1;1;2;1;1;1;1;0.5;1';
-            break;
-            case 17:
-                // Acier
-                $val = '0.5;2;0.5;1;1;0.5;2;0.5;0.5;0.5;0.5;0;0.5;0.5;2;1;1;0.5';
-            break;
-            case 2:
-                // Plante
-                $val = '1;1;1;0.5;0.5;1;2;2;2;1;0.5;2;1;1;0.5;1;1;2';
-            break;
-            case 14:
-                // Spectre
-                $val = '1;0;1;1;1;1;1;1;0.5;0;1;0.5;1;1;1;2;2;1';
-            break;
-            case 15:
-                // Dragon
-                $val = '1;1;2;0.5;0.5;2;0.5;2;1;1;0.5;1;1;1;1;1;1;1';
-            break;
-            case 5:
-                // Elek
-                $val = '0.5;1;1;1;0.5;1;1;1;1;1;1;1;1;1;2;1;1;0.5';
-            break;
-            case 12:
-                // Insecte
-                $val = '1;0.5;1;1;1;1;2;1;1;1;0.5;1;1;2;0.5;1;1;2';
-            break;
-            case 6:
-                // Glace
-                $val = '2;2;1;1;1;1;2;0.5;1;1;1;1;1;2;1;1;1;1';
-            break;
-            case 13:
-                // Roche
-                $val = '2;2;1;2;1;1;0.5;1;1;0.5;2;0.5;1;1;2;1;1;0.5';
-            break;
-            case 9:
-                // Sol
-                $val = '1;1;1;2;0;1;1;2;1;1;2;0.5;1;0.5;1;1;1;1';
-            break;
-            case 10:
-                // Vol
-                $val = '1;0.5;1;1;2;1;1;2;0.5;1;0.5;1;1;2;0;1;1;1';
-            break;
-            case 7:
-                // Combat
-                $val = '1;1;1;1;1;2;1;1;0.5;1;1;1;2;0.5;1;1;0.5;2';
-            break;
-            case 11:
-                // Psy
-                $val = '1;0.5;1;1;1;1;1;1;2;1;1;1;0.5;1;1;2;2;1';
-            break;
-            case 1:
-                // Normal
-                $val = '1;2;1;1;1;1;1;1;1;1;1;1;1;1;1;0;1;1';
-            break;
-            default:
-                $val = 'false';
-        }
+    // public function getFaiblesse()
+    // {
+    //     if ($this->type_one)
+    //     {
+    //         $val = $this->getFaiblesseType($this->type_one->getId());
+    //         if($this->type_two)
+    //         {
+    //             $v = [];
+    //             $type2 = $this->getFaiblesseType($this->type_two->getId());
+    //             $t2 = explode(';', $type2);
+    //             $t1 = explode(';', $val);
+    //             for ($i = 0; $i < 18; $i++){
+    //                 $calc = (floatval($t1[$i]) * floatval($t2[$i]));
+    //                 array_push($v, $calc);
+    //             }
+    //             //dump(implode(',',$v));
+    //             return implode(';',$v);
+    //         }
+    //     }
+    //     return $val;
+    // }
 
-        return $val;
-    }
+    // public function getFaiblesseType($search)
+    // {
+    //     switch ($search)
+    //     {
+    //         case 16:
+    //             // Tenebres
+    //             $val = '1;2;1;1;1;2;1;1;2;1;1;1;0;1;1;0.5;0.5;1';
+    //         break;
+    //         case 3:
+    //             // Feu
+    //             $val = '0.5;1;1;2;1;0.5;0.5;0.5;0.5;1;0.5;1;1;2;2;1;1;1';
+    //         break;
+    //         case 4:
+    //             // EAU
+    //             $val = '0.5;1;1;0.5;2;1;0.5;0.5;1;1;2;1;1;1;1;1;1;1';
+    //         break;
+    //         case 8:
+    //             // Poison
+    //             $val = '1;0.5;1;1;1;0.5;1;1;0.5;1;0.5;0.5;2;1;2;1;1;1';
+    //         break;
+    //         case 18:
+    //             // Fée
+    //             $val = '2;0.5;0;1;1;1;1;1;0.5;1;1;2;1;1;1;1;0.5;1';
+    //         break;
+    //         case 17:
+    //             // Acier
+    //             $val = '0.5;2;0.5;1;1;0.5;2;0.5;0.5;0.5;0.5;0;0.5;0.5;2;1;1;0.5';
+    //         break;
+    //         case 2:
+    //             // Plante
+    //             $val = '1;1;1;0.5;0.5;1;2;2;2;1;0.5;2;1;1;0.5;1;1;2';
+    //         break;
+    //         case 14:
+    //             // Spectre
+    //             $val = '1;0;1;1;1;1;1;1;0.5;0;1;0.5;1;1;1;2;2;1';
+    //         break;
+    //         case 15:
+    //             // Dragon
+    //             $val = '1;1;2;0.5;0.5;2;0.5;2;1;1;0.5;1;1;1;1;1;1;1';
+    //         break;
+    //         case 5:
+    //             // Elek
+    //             $val = '0.5;1;1;1;0.5;1;1;1;1;1;1;1;1;1;2;1;1;0.5';
+    //         break;
+    //         case 12:
+    //             // Insecte
+    //             $val = '1;0.5;1;1;1;1;2;1;1;1;0.5;1;1;2;0.5;1;1;2';
+    //         break;
+    //         case 6:
+    //             // Glace
+    //             $val = '2;2;1;1;1;1;2;0.5;1;1;1;1;1;2;1;1;1;1';
+    //         break;
+    //         case 13:
+    //             // Roche
+    //             $val = '2;2;1;2;1;1;0.5;1;1;0.5;2;0.5;1;1;2;1;1;0.5';
+    //         break;
+    //         case 9:
+    //             // Sol
+    //             $val = '1;1;1;2;0;1;1;2;1;1;2;0.5;1;0.5;1;1;1;1';
+    //         break;
+    //         case 10:
+    //             // Vol
+    //             $val = '1;0.5;1;1;2;1;1;2;0.5;1;0.5;1;1;2;0;1;1;1';
+    //         break;
+    //         case 7:
+    //             // Combat
+    //             $val = '1;1;1;1;1;2;1;1;0.5;1;1;1;2;0.5;1;1;0.5;2';
+    //         break;
+    //         case 11:
+    //             // Psy
+    //             $val = '1;0.5;1;1;1;1;1;1;2;1;1;1;0.5;1;1;2;2;1';
+    //         break;
+    //         case 1:
+    //             // Normal
+    //             $val = '1;2;1;1;1;1;1;1;1;1;1;1;1;1;1;0;1;1';
+    //         break;
+    //         default:
+    //             $val = 'false';
+    //     }
+
+    //     return $val;
+    // }
 }

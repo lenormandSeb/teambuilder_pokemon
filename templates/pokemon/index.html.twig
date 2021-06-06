@@ -27,9 +27,9 @@
                     <td scope="col-md-2">{{ pokemon.numDex }} - {{ pokemon.name }}</td>
                     <td scope="col-md-2">
                     {% if pokemon.getTypeOne != null %}
-                        <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                        <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name|capitalize ~'_EB.png') }}" style="heigth: 15px; width: 68px">
                         {% if pokemon.getTypeTwo != null %}
-                            - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                            - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name|capitalize ~'_EB.png') }}" style="heigth: 15px; width: 68px">
                         {% endif %}
                     {% endif %}
                     </td>

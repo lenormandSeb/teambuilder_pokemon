@@ -51,7 +51,7 @@
                     <th>Pokemon - Type</th>
                 {% for type in types %}
                     {% if type.name != 'NULL' %}
-                    <th style="background-color:#{{ type.color }};color:white; text-align:center"><img src="{{ asset('images/type/Miniature_Type_'~ type.name ~'_PKP.png') }}" class="img-fluid"></th>
+                    <th style="background-color:#{{ type.color }};color:white; text-align:center"><img src="{{ asset('images/type/Miniature_Type_'~ type.name|capitalize ~'_PKP.png') }}" class="img-fluid"></th>
                     {% endif %}
                 {% endfor %}
                 </tr>

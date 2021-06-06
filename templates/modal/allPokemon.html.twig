@@ -14,9 +14,9 @@
                 </td>
                 <td>
                     {% if pokemon.getTypeOne %}
-                        <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                        <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeOne.name|capitalize ~'_EB.png') }}" style="heigth: 15px; width: 68px">
                         {% if pokemon.getTypeTwo %}
-                            - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name ~'_EB.png') }}" style="heigth: 15px; width: 68px">
+                            - <img src="{{ asset('images/type/Miniature_Type_'~ pokemon.getTypeTwo.name|capitalize ~'_EB.png') }}" style="heigth: 15px; width: 68px">
                         {% endif %}
                     {% endif %}
                 </td>

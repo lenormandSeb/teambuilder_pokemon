@@ -11,16 +11,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PokedexController extends AbstractController
 {
+    /**
+     * @Route("/pokedex", name="pokedex")
+     */
     public function index(EntityManagerInterface $entityManager)
     {
         $pokemon = $this->getDoctrine()->getRepository(Pokemon::class);
 
-        $pokemons = $pokemon->findAllByNumDex();
+        $response = new Response();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
 
-        return $this->render('pokedex/index.html.twig',[
-            'pokemons' => $pokemons,
-            'gen' => false
-        ]);
+        $p = $pokemon->findAllByNumDex();
+
+        $r = [];
+
+        foreach($p as $po) {
+            array_push($r, $po->__toArray());
+        }
+
+        return $response->setContent(json_encode(
+            [
+                'result' => 'ok',
+                'pokemons' => $r
+            ]
+        ));
     }
 
     /**
