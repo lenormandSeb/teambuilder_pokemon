@@ -38,6 +38,25 @@ class PokedexController extends AbstractController
     }
 
     /**
+     * @Route("/pokedex/num_dex/{num_dex}", name="pokemon_dex")
+     */
+    public function getPokemonByNum(int $num_dex, EntityManagerInterface $entityManager) {
+        $pokemon = $this->getDoctrine()->getRepository(Pokemon::class);
+
+        $response = new Response();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        $p = $pokemon->findByNumDex($num_dex);
+
+        return $response->setContent(json_encode(
+            [
+                'result' => 'ok',
+                'pokemon' => $p->__toArray(true)
+            ]
+        ));
+    }
+
+    /**
      * @Route("/pokedex/{gen}", name="pokedex")
      */
     public function generation($gen)

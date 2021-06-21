@@ -282,9 +282,31 @@ class Pokemon
         return $this;
     }
 
-    public function __toArray()
+    public function __toArray(bool $all = false)
     {
-        return ['name' => $this->name, 'num_dex' => $this->num_dex, 'type' => ["type1" => $this->getTypeOne(), "type2" => $this->getTypeTwo()]];
+        $type = [];
+        array_push($type, ucfirst($this->getTypeOne()->getName()));
+
+        if(!is_null($this->getTypeTwo())) {
+            array_push($type, ucfirst($this->getTypeTwo()->getName()));
+        }
+
+        $base = ['name' => $this->name, 'num_dex' => $this->num_dex, "type" => $type];
+
+        if($all) {
+            $basestat = [
+                "hp" => $this->hp,
+                "atk" => $this->attack,
+                "def" => $this->defense,
+                "speAtk" => $this->spe_attack,
+                "speDef" => $this->spe_defense,
+                "speed" => $this->speed
+            ];
+
+            $base = array_merge($base, $basestat);
+        }
+
+        return $base;
     }
 
     // public function getBackgroundColor(string $value): ?string
