@@ -27,89 +27,36 @@
             {% endif %}
             </select>
             <label for="nature">Nature</label>
-            <select name="nature" class="form-control col-md-12">
+            <select name="nature" class="form-control col-md-12 statChangerName">
                 {% for nature in natures %}
-                <option>{{ nature.name }}</option>
+                <option data-aug="{{ nature.statAug }}" data-down="{{ nature.statDown }}">{{ nature.name }}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
     <div class="col-md-8">
-        <div>
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>BS</th>
-                        <th>EV</th>
-                        <th>IV</th>
-                        <th>FINAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>HP</td>
-                        <td>{{ pokemon.hp }}</td>
-                        <td>{{ forms.inputEVIV('hpEV', 'form-control stat hpEV', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('hpIV', 'form-control stat hpIV', 'number', 0, 31, 31) }}</td>
-                        <td id="hpfinal"></td>
-                    </tr>
-                    <tr>
-                        <td>ATK</td>
-                        <td>{{ pokemon.attack }}</td>
-                        <td>{{ forms.inputEVIV('atkEV', 'form-control stat atk', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('atkIV', 'form-control stat atk', 'number', 0, 31, 31) }}</td>
-                        <td id="atkfinal"></td>
-                    </tr>
-                    <tr>
-                        <td>DEF</td>
-                        <td>{{ pokemon.defense }}</td>
-                        <td>{{ forms.inputEVIV('defEV', 'form-control stat def', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('defIV', 'form-control stat def', 'number', 0, 31, 31) }}</td>
-                        <td id="deffinal"></td>
-                    </tr>
-                    <tr>
-                        <td>ATK SPE</td>
-                        <td>{{ pokemon.speattack }}</td>
-                        <td>{{ forms.inputEVIV('atkspeEV', 'form-control stat atkspe', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('atkspeIV', 'form-control stat atkspe', 'number', 0, 31, 31) }}</td>
-                        <td id="atkspefinal"></td>
-                    </tr>
-                    <tr>
-                        <td>DEF SPE</td>
-                        <td>{{ pokemon.spedefense }}</td>
-                        <td>{{ forms.inputEVIV('defspeEV', 'form-control stat defspe', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('defspeIV', 'form-control stat defspe', 'number', 0, 31, 31) }}</td>
-                        <td id="defspefinal"></td>
-                    </tr>
-                    <tr>
-                        <td>VITESSE</td>
-                        <td>{{ pokemon.speed }}</td>
-                        <td>{{ forms.inputEVIV('vitEV', 'form-control stat vit', 'number', 0, 255, 0) }}</td>
-                        <td>{{ forms.inputEVIV('vitIV', 'form-control stat vit', 'number', 0, 31, 31) }}</td>
-                        <td id="vitfinal"></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="statChangerLVL">
         </div>
+        <table class="table table-condensed table-bordered">
+            <tbody class="statChangerStats">
+            </tbody>
+        </table>
     </div>
 </div>
 {% block script %}
 <script src="{{ asset('js/statChanger.js') }}"></script>
 <script>
     $(document).ready(function(){
-        var test = new Test('{{ pokemon.hp }}',
-            '{{ pokemon.attack }}',
-            '{{ pokemon.defense }}',
-            '{{ pokemon.speattack }}',
-            '{{ pokemon.spedefense }}',
-            '{{ pokemon.speed }}');
+        console.log(statChanger)
+        var statChanger = new StatChanger('{{ pokemon.hp }}',
+        '{{ pokemon.attack }}',
+        '{{ pokemon.defense }}',
+        '{{ pokemon.speattack }}',
+        '{{ pokemon.spedefense }}',
+        '{{ pokemon.speed }}'
+        );
 
-        test.calculateur();
-
-        $('.stat').on('change', function(event) {
-            test.update($(event.currentTarget))
-        })
+        statChanger.autoInit();
     })
 </script>
 {% endblock %}
